@@ -65,11 +65,11 @@ export default function Contact() {
           >
             <h2 className="text-4xl md:text-6xl font-bold mb-8 text-brand-dark">
               음악 프로그램은 물론<br />
-              <span className="text-brand-primary">다양한 예능 콘텐츠</span>까지 함께합니다.
+              <span className="text-brand-primary">다양한 예능 콘텐츠</span>까지 함께합니다
             </h2>
             <p className="text-zinc-500 max-w-xl mx-auto font-medium">
-              장르의 본질을 이해하는 연출로 최상의 결과물을 약속합니다.<br />
-              아래 양식을 통해 문의해 주시면 빠르게 답변해 드리겠습니다.
+              장르의 본질을 이해하는 연출로 최상의 결과물을 약속합니다<br />
+              아래 양식을 통해 문의해 주시면 빠르게 답변해 드리겠습니다
             </p>
           </motion.div>
 

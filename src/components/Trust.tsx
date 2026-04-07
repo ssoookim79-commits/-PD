@@ -46,7 +46,7 @@ export default function Trust() {
               <div>
                 <h3 className="text-lg font-bold mb-6 border-b border-zinc-100 pb-4 text-brand-dark">Message</h3>
                 <blockquote className="text-2xl font-bold text-brand-primary italic leading-tight mb-6">
-                  "장르에 맞는 결과를 만듭니다."
+                  "장르에 맞는 결과를 만듭니다"
                 </blockquote>
               </div>
               <div className="flex items-center gap-3">

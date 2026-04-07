@@ -9,7 +9,7 @@ export default function Skills() {
           <h2 className="text-4xl md:text-5xl font-bold mb-6 text-brand-dark">Core Strengths</h2>
           <p className="text-zinc-500 max-w-2xl mx-auto font-medium">
             단순한 편집을 넘어, 장르의 본질을 꿰뚫는 연출로<br />
-            차별화된 결과물을 만듭니다.
+            차별화된 결과물을 만듭니다
           </p>
         </div>
 
