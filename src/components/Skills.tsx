@@ -57,7 +57,7 @@ export default function Skills() {
               { icon: Zap, title: "예능 콘텐츠", desc: "리듬감 있는 편집" },
               { icon: Film, title: "숏폼 콘텐츠", desc: "바이럴 최적화 제작" }
             ].map((service, i) => (
-              <div key={i} className="p-8 bg-zinc-50 border border-zinc-100 rounded-3xl hover:border-brand-primary/30 transition-all hover:shadow-xl hover:shadow-brand-primary/5 group">
+              <div key={i} className="p-8 bg-zinc-50 border border-zinc-100 rounded-3xl hover:border-brand-primary/30 transition-all hover:shadow-xl hover:shadow-brand-primary/5 group flex flex-col items-center text-center">
                 <service.icon className="w-8 h-8 text-brand-primary mb-4 group-hover:scale-110 transition-transform" />
                 <h4 className="font-bold mb-2 text-brand-dark">{service.title}</h4>
                 <p className="text-zinc-500 text-sm font-medium">{service.desc}</p>

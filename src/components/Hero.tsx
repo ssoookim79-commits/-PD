@@ -26,8 +26,8 @@ export default function Hero() {
             Freelance Variety Show PD
           </span>
           <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold mb-8 leading-tight text-brand-dark">
-            음악과 예능,<br />
-            <span className="text-brand-accent italic drop-shadow-sm">모두를 다루는 PD</span>
+            음악과 예능<br />
+            <span className="text-brand-accent drop-shadow-sm">모두를 다루는 PD</span>
           </h1>
           <p className="max-w-2xl mx-auto text-zinc-500 text-lg md:text-xl mb-12 font-medium leading-relaxed">
             콘서트, 시상식, 음악 프로그램 경험을 바탕으로<br className="hidden md:block" />
