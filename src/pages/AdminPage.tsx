@@ -44,7 +44,7 @@ export default function AdminPage() {
 
   useEffect(() => {
     // Fetch projects if either Google Admin is logged in OR Password "1111" is entered
-    if ((user && user.email === "ssoookim79@gmail.com") || password === "1111") {
+    if ((user && user.email === "ssoookim79@gmail.com") || password === "0313") {
       const q = query(collection(db, "projects"), orderBy("order", "asc"));
       const unsubscribe = onSnapshot(q, (snapshot) => {
         const projectsData = snapshot.docs.map(doc => ({
@@ -73,7 +73,7 @@ export default function AdminPage() {
 
   const handlePasswordLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    if (password === "1111") {
+    if (password === "0313") {
       setError("");
       showMsg("비밀번호로 입장했습니다.");
     } else {
@@ -169,7 +169,7 @@ export default function AdminPage() {
 
   const isAdmin = user && user.email === "ssoookim79@gmail.com";
 
-  if (!isAdmin && password !== "1111") {
+  if (!isAdmin && password !== "0313") {
     return (
       <div className="min-h-screen flex items-center justify-center bg-brand-light/20 px-6">
         <div className="glass p-10 rounded-3xl w-full max-w-md text-center">
@@ -195,7 +195,7 @@ export default function AdminPage() {
             <form onSubmit={handlePasswordLogin} className="space-y-4">
               <input
                 type="password"
-                placeholder="비밀번호 (1111)"
+                placeholder="비밀번호"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full px-4 py-3 rounded-xl border border-zinc-200 focus:outline-none focus:ring-2 focus:ring-brand-primary/50"
