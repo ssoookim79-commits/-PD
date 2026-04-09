@@ -3,7 +3,7 @@ import { Music, Zap, Layers, Mic2, Tv, Film, CheckCircle2 } from "lucide-react";
 
 export default function Skills() {
   return (
-    <section className="py-24 bg-white">
+    <section className="py-24 bg-zinc-50">
       <div className="container mx-auto px-6">
         <div className="text-center mb-20">
           <h2 className="text-4xl md:text-5xl font-bold mb-6 text-brand-dark">Core Strengths</h2>

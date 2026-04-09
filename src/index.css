@@ -6,15 +6,15 @@
   --font-serif: "Pretendard", serif;
   --font-mono: "JetBrains Mono", monospace;
 
-  --color-brand-light: #C3E7F1;
-  --color-brand-primary: #519CAB;
-  --color-brand-accent: #FFC64F;
-  --color-brand-dark: #20373B;
+  --color-brand-light: #EEF2FF;
+  --color-brand-primary: #A78BFA;
+  --color-brand-accent: #BAE6FD;
+  --color-brand-dark: #1F2937;
   
-  --color-zinc-50: #f8fafc;
-  --color-zinc-100: #f1f5f9;
-  --color-zinc-900: #0f172a;
-  --color-zinc-950: #020617;
+  --color-zinc-50: #F8FAFF;
+  --color-zinc-100: #EEF2FF;
+  --color-zinc-900: #111827;
+  --color-zinc-950: #030712;
 }
 
 @layer base {
@@ -28,11 +28,11 @@
 }
 
 .refreshing-gradient {
-  background: linear-gradient(135deg, #C3E7F1 0%, #519CAB 100%);
+  background: linear-gradient(135deg, #EEF2FF 0%, #A78BFA 100%);
 }
 
 .text-brand-gradient {
-  background: linear-gradient(135deg, #519CAB 0%, #20373B 100%);
+  background: linear-gradient(135deg, #A78BFA 0%, #1F2937 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;

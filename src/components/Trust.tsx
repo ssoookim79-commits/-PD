@@ -3,7 +3,7 @@ import { Star, Award, TrendingUp } from "lucide-react";
 
 export default function Trust() {
   return (
-    <section className="py-24 bg-brand-light/5">
+    <section className="py-24 bg-white">
       <div className="container mx-auto px-6">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
           {/* Stats */}
@@ -45,7 +45,7 @@ export default function Trust() {
             <div className="glass p-8 rounded-3xl border-brand-light/30 flex flex-col justify-between">
               <div>
                 <h3 className="text-lg font-bold mb-6 border-b border-zinc-100 pb-4 text-brand-dark">Message</h3>
-                <blockquote className="text-2xl font-bold text-brand-primary italic leading-tight mb-6">
+                <blockquote className="text-2xl font-bold text-[#C7D2FE] italic leading-tight mb-6">
                   "장르에 맞는 결과를 만듭니다"
                 </blockquote>
               </div>

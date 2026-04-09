@@ -7,7 +7,7 @@ export default function Hero() {
     <section className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden bg-white">
       {/* Background Video Placeholder / Gradient */}
       <div className="absolute inset-0 z-0 opacity-20">
-        <div className="absolute inset-0 bg-gradient-to-b from-brand-light/50 via-white to-white z-10" />
+        <div className="absolute inset-0 bg-gradient-to-b from-brand-light via-white to-white z-10" />
         <img 
           src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&q=80&w=2000" 
           alt="Studio Background" 
@@ -27,7 +27,7 @@ export default function Hero() {
           </span>
           <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold mb-8 leading-tight text-brand-dark">
             음악과 예능<br />
-            <span className="text-brand-accent drop-shadow-sm">모두를 다루는 PD</span>
+            <span className="text-[#C7D2FE] drop-shadow-sm">모두를 다루는 PD</span>
           </h1>
           <p className="max-w-2xl mx-auto text-zinc-500 text-lg md:text-xl mb-12 font-medium leading-relaxed">
             콘서트, 시상식, 음악 프로그램 경험을 바탕으로<br className="hidden md:block" />

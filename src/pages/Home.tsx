@@ -8,7 +8,7 @@ export default function Home() {
   return (
     <>
       <Hero />
-      <Portfolio />
+      <Portfolio limit={2} />
       <Skills />
       <Trust />
       <Contact />

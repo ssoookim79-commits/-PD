@@ -49,12 +49,6 @@ export default function Navbar() {
           >
             <User className="w-5 h-5" />
           </Link>
-          <Link 
-            to="/contact" 
-            className="btn-primary py-2 px-6"
-          >
-            문의하기
-          </Link>
         </div>
 
         {/* Mobile Toggle */}
@@ -86,13 +80,6 @@ export default function Navbar() {
                   {link.name}
                 </Link>
               ))}
-              <Link 
-                to="/contact" 
-                className="btn-primary w-full text-center"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                문의하기
-              </Link>
             </div>
           </motion.div>
         )}

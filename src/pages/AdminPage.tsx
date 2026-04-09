@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Lock, Image as ImageIcon, Save, Trash2, Plus, LogOut, RefreshCw } from "lucide-react";
+import { Lock, Image as ImageIcon, Save, Trash2, Plus, LogOut, RefreshCw, ChevronUp, ChevronDown } from "lucide-react";
 import { auth, db, googleProvider, handleFirestoreError, OperationType } from "../firebase";
 import { signInWithPopup, signOut, onAuthStateChanged, User } from "firebase/auth";
 import { collection, doc, setDoc, deleteDoc, onSnapshot, query, orderBy, addDoc, serverTimestamp } from "firebase/firestore";
@@ -18,6 +18,7 @@ interface Project {
 
 export default function AdminPage() {
   const [password, setPassword] = useState("");
+  const [isPasswordAuthenticated, setIsPasswordAuthenticated] = useState(false);
   const [user, setUser] = useState<User | null>(null);
   const [isAuthReady, setIsAuthReady] = useState(false);
   const [error, setError] = useState("");
@@ -43,8 +44,8 @@ export default function AdminPage() {
   }, []);
 
   useEffect(() => {
-    // Fetch projects if either Google Admin is logged in OR Password "1111" is entered
-    if ((user && user.email === "ssoookim79@gmail.com") || password === "0313") {
+    // Fetch projects if either Google Admin is logged in OR Password authentication is successful
+    if ((user && user.email === "ssoookim79@gmail.com") || isPasswordAuthenticated) {
       const q = query(collection(db, "projects"), orderBy("order", "asc"));
       const unsubscribe = onSnapshot(q, (snapshot) => {
         const projectsData = snapshot.docs.map(doc => ({
@@ -58,7 +59,7 @@ export default function AdminPage() {
       });
       return () => unsubscribe();
     }
-  }, [user, password]);
+  }, [user, isPasswordAuthenticated]);
 
   const handleGoogleLogin = async () => {
     try {
@@ -74,6 +75,7 @@ export default function AdminPage() {
   const handlePasswordLogin = (e: React.FormEvent) => {
     e.preventDefault();
     if (password === "0313") {
+      setIsPasswordAuthenticated(true);
       setError("");
       showMsg("비밀번호로 입장했습니다.");
     } else {
@@ -84,6 +86,7 @@ export default function AdminPage() {
   const handleLogout = () => {
     signOut(auth);
     setPassword("");
+    setIsPasswordAuthenticated(false);
     showMsg("로그아웃 되었습니다.");
   };
 
@@ -165,11 +168,35 @@ export default function AdminPage() {
     }));
   };
 
+  const handleMove = async (index: number, direction: 'up' | 'down') => {
+    const targetIndex = direction === 'up' ? index - 1 : index + 1;
+    if (targetIndex < 0 || targetIndex >= projects.length) return;
+
+    const newProjects = [...projects];
+    const temp = newProjects[index].order;
+    newProjects[index].order = newProjects[targetIndex].order;
+    newProjects[targetIndex].order = temp;
+
+    setLoading(true);
+    try {
+      await Promise.all([
+        setDoc(doc(db, "projects", newProjects[index].id), { ...newProjects[index], updatedAt: serverTimestamp() }),
+        setDoc(doc(db, "projects", newProjects[targetIndex].id), { ...newProjects[targetIndex], updatedAt: serverTimestamp() })
+      ]);
+      showMsg("순서가 변경되었습니다.");
+    } catch (err: any) {
+      console.error("Reorder error:", err);
+      showMsg("순서 변경 실패", "error");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   if (!isAuthReady) return null;
 
   const isAdmin = user && user.email === "ssoookim79@gmail.com";
 
-  if (!isAdmin && password !== "0313") {
+  if (!isAdmin && !isPasswordAuthenticated) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-brand-light/20 px-6">
         <div className="glass p-10 rounded-3xl w-full max-w-md text-center">
@@ -240,8 +267,27 @@ export default function AdminPage() {
         )}
 
         <div className="grid grid-cols-1 gap-8">
-          {projects.map((project) => (
-            <div key={project.id} className="glass p-8 rounded-3xl flex flex-col lg:flex-row gap-8">
+          {projects.map((project, index) => (
+            <div key={project.id} className="glass p-8 rounded-3xl flex flex-col lg:flex-row gap-8 relative group/card">
+              <div className="absolute -left-4 top-1/2 -translate-y-1/2 flex flex-col gap-2 opacity-0 group-hover/card:opacity-100 transition-opacity">
+                <button 
+                  onClick={() => handleMove(index, 'up')}
+                  disabled={index === 0 || loading}
+                  className="p-2 bg-white shadow-lg rounded-full hover:text-brand-primary disabled:opacity-30 transition-all"
+                  title="위로 이동"
+                >
+                  <ChevronUp className="w-5 h-5" />
+                </button>
+                <button 
+                  onClick={() => handleMove(index, 'down')}
+                  disabled={index === projects.length - 1 || loading}
+                  className="p-2 bg-white shadow-lg rounded-full hover:text-brand-primary disabled:opacity-30 transition-all"
+                  title="아래로 이동"
+                >
+                  <ChevronDown className="w-5 h-5" />
+                </button>
+              </div>
+
               <div className="w-full lg:w-64 space-y-4">
                 <div className="aspect-video bg-zinc-200 rounded-2xl flex items-center justify-center overflow-hidden relative group">
                   {project.videoUrl.startsWith('http') ? (

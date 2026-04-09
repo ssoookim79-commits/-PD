@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 export default function Contact() {
   return (
-    <section id="contact" className="py-24 relative overflow-hidden bg-white">
+    <section id="contact" className="py-24 relative overflow-hidden bg-zinc-50">
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-px bg-gradient-to-r from-transparent via-brand-primary/50 to-transparent" />
       
       <div className="container mx-auto px-6 relative z-10">

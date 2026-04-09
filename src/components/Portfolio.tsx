@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { ExternalLink, Play, Music, Film } from "lucide-react";
+import { ExternalLink, Play, Music, Film, ArrowRight } from "lucide-react";
 import { collection, query, orderBy, onSnapshot } from "firebase/firestore";
 import { db, handleFirestoreError, OperationType } from "../firebase";
+import { Link } from "react-router-dom";
 
 interface Project {
   id: string;
@@ -71,7 +72,7 @@ const initialProjects: Omit<Project, "id">[] = [
   }
 ];
 
-export default function Portfolio() {
+export default function Portfolio({ limit }: { limit?: number }) {
   const [activeTab, setActiveTab] = useState<"Music" | "Entertainment">("Entertainment");
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
@@ -100,6 +101,7 @@ export default function Portfolio() {
   }, []);
 
   const filteredProjects = projects.filter(p => p.category === activeTab);
+  const displayedProjects = limit ? filteredProjects.slice(0, limit) : filteredProjects;
 
   if (loading) {
     return (
@@ -110,7 +112,7 @@ export default function Portfolio() {
   }
 
   return (
-    <section id="portfolio" className="py-24 bg-brand-light/10">
+    <section id="portfolio" className="py-24 bg-brand-light/20">
       <div className="container mx-auto px-6">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-8">
           <div>
@@ -136,9 +138,9 @@ export default function Portfolio() {
 
         <div className="grid grid-cols-1 gap-20">
           <AnimatePresence mode="wait">
-            {filteredProjects.map((project, index) => (
+            {displayedProjects.map((project, index) => (
               <motion.div 
-                key={project.title}
+                key={project.id}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
@@ -198,6 +200,17 @@ export default function Portfolio() {
             ))}
           </AnimatePresence>
         </div>
+
+        {limit && filteredProjects.length > limit && (
+          <div className="mt-20 text-center">
+            <Link 
+              to="/portfolio" 
+              className="inline-flex items-center gap-2 px-8 py-4 bg-white text-brand-dark font-bold rounded-xl border border-zinc-200 hover:bg-zinc-50 transition-all shadow-sm group"
+            >
+              포트폴리오 전체 보기 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </Link>
+          </div>
+        )}
       </div>
     </section>
   );
