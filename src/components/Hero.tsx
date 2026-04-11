@@ -23,14 +23,14 @@ export default function Hero() {
           transition={{ duration: 0.8 }}
         >
           <span className="inline-block px-4 py-1.5 mb-6 text-xs font-bold tracking-widest uppercase border border-brand-primary/30 rounded-full text-brand-primary bg-brand-primary/5">
-            Freelance Variety Show PD
+            Broadcasting Director
           </span>
           <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold mb-8 leading-tight text-brand-dark">
             음악과 예능<br />
             <span className="text-[#C7D2FE] drop-shadow-sm">모두를 다루는 PD</span>
           </h1>
           <p className="max-w-2xl mx-auto text-zinc-500 text-lg md:text-xl mb-12 font-medium leading-relaxed">
-            콘서트, 시상식, 음악 프로그램 경험을 바탕으로<br className="hidden md:block" />
+            콘서트, 시상식, 음악 프로그램 경험을 바탕으로 <br className="hidden md:block" />
             다양한 예능 콘텐츠를 제작합니다.
           </p>
         </motion.div>
@@ -65,9 +65,9 @@ export default function Hero() {
           className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto border-t border-zinc-100 pt-12 mb-24"
         >
           {[
-            { title: "음악 프로그램 특화", desc: "시상식, 라이브 무대 등 고퀄리티 음악 연출" },
-            { title: "예능 편집 / 연출", desc: "리듬감 있는 컷 편집과 몰입도 높은 연출" },
-            { title: "다양한 장르 대응", desc: "교양과 웹예능까지 폭넓은 제작 스펙트럼" }
+            { title: "음악·시상식 전문 연출", desc: "무대 연출부터 VCR 제작까지 완벽 수행" },
+            { title: "감각적인 현장·편집 실무", desc: "흐름을 읽는 디렉팅과 리듬감 있는 편집" },
+            { title: "전 장르 즉시 투입 가능", desc: "교양부터 서바이벌까지 폭넓은 제작 경험" }
           ].map((item, i) => (
             <div key={i} className="text-center">
               <h3 className="text-brand-primary font-bold mb-2">{item.title}</h3>

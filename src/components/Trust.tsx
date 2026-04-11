@@ -14,9 +14,9 @@ export default function Trust() {
             </h2>
             <div className="space-y-6">
               {[
-                { icon: TrendingUp, label: "누적 조회수", value: "5,000만+" },
-                { icon: Star, label: "협업 브랜드", value: "30+" },
-                { icon: Award, label: "평균 시청 지속 시간", value: "45% 향상" }
+                { icon: TrendingUp, label: "최고 시청률", value: "23.1%" },
+                { icon: Star, label: "제작 프로그램", value: "50편+" },
+                { icon: Award, label: "제작 경력", value: "10년 차 베테랑" }
               ].map((stat, i) => (
                 <div key={i} className="flex items-center gap-4">
                   <div className="w-12 h-12 rounded-2xl bg-brand-primary/10 flex items-center justify-center text-brand-primary">
@@ -36,24 +36,24 @@ export default function Trust() {
             <div className="glass p-8 rounded-3xl border-brand-light/30">
               <h3 className="text-lg font-bold mb-6 border-b border-zinc-100 pb-4 text-brand-dark">Experience</h3>
               <ul className="space-y-4 text-zinc-600 font-medium">
-                <li>• 음악 프로그램 관련 작업 경험</li>
-                <li>• 예능 콘텐츠 제작 경험</li>
-                <li>• 콘서트 / 시상식 현장 연출 지원</li>
-                <li>• 대형 MCN 소속 크리에이터 PD</li>
+                <li>• 음악 쇼 및 대형 시상식 메인/현장 연출</li>
+                <li>• 글로벌 서바이벌 및 리얼리티 예능 기획·제작</li>
+                <li>• 국가급 대형 라이브 이벤트 및 생방송 진행</li>
+                <li>• 10년 차 올라운더 PD</li>
               </ul>
             </div>
             <div className="glass p-8 rounded-3xl border-brand-light/30 flex flex-col justify-between">
               <div>
                 <h3 className="text-lg font-bold mb-6 border-b border-zinc-100 pb-4 text-brand-dark">Message</h3>
                 <blockquote className="text-2xl font-bold text-[#C7D2FE] italic leading-tight mb-6">
-                  "장르에 맞는 결과를 만듭니다"
+                  "결과로 증명하는 10년 차 올라운더"
                 </blockquote>
               </div>
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-full bg-brand-light" />
                 <div>
                   <p className="text-sm font-bold text-brand-dark">김수경 PD</p>
-                  <p className="text-xs text-zinc-500 font-medium">Freelance Variety PD</p>
+                  <p className="text-xs text-zinc-500 font-medium">Broadcasting Director</p>
                 </div>
               </div>
             </div>

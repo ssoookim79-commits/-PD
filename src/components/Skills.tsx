@@ -17,18 +17,18 @@ export default function Skills() {
           {[
             {
               icon: Music,
-              title: "무대를 이해하는 편집",
-              points: ["공연 흐름 유지", "감정선 끊지 않음", "현장감 극대화"]
+              title: "무대와 영상의 완벽한 조화",
+              points: ["공연의 흐름과 아티스트의 호흡을 고려한 정밀 연출", "무대 LED 비주얼과 현장감의 극대화", "시청자의 감정선을 놓치지 않는 컷 전환"]
             },
             {
               icon: Zap,
-              title: "장르 전환 능력",
-              points: ["음악 → 몰입 / 감정 중심", "예능 → 템포 / 재미 중심", "다양한 장르 대응"]
+              title: "한계 없는 장르 스펙트럼",
+              points: ["음악: 몰입도 높은 대형 쇼 및 시상식 연출", "예능: 템포와 리듬감을 살린 리얼리티 제작", "교양/서바이벌: 메시지와 긴장감을 담은 포맷 구성"]
             },
             {
               icon: Layers,
-              title: "전체 흐름 설계",
-              points: ["단순 편집이 아닌 구조 설계", "스토리텔링 기반 연출", "시청 지속 시간 최적화"]
+              title: "프로젝트 토탈 디렉팅",
+              points: ["초기 포맷 기획부터 최종 종편까지 전 과정 컨트롤", "스토리텔링 기반의 탄탄한 구성 및 연출", "시청률과 화제성을 고려한 전략적 콘텐츠 설계"]
             }
           ].map((strength, i) => (
             <div key={i} className="glass p-10 rounded-3xl border-brand-light/30 flex flex-col items-center text-center">
@@ -52,10 +52,10 @@ export default function Skills() {
           <h3 className="text-2xl font-bold text-brand-dark mb-10">가능 업무</h3>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
             {[
-              { icon: Mic2, title: "콘서트 / 시상식", desc: "고품격 현장 편집" },
-              { icon: Tv, title: "음악 프로그램", desc: "흐름 중심 제작" },
-              { icon: Zap, title: "예능 콘텐츠", desc: "리듬감 있는 편집" },
-              { icon: Film, title: "숏폼 콘텐츠", desc: "바이럴 최적화 제작" }
+              { icon: Mic2, title: "콘서트 / 시상식", desc: "대형 라이브 현장 연출" },
+              { icon: Tv, title: "음악 프로그램", desc: "아티스트 맞춤형 무대·VCR 연출" },
+              { icon: Zap, title: "예능 콘텐츠", desc: "장르 불문 리듬감 있는 편집·제작" },
+              { icon: Film, title: "숏폼 & 뉴미디어", desc: "화제성 중심의 디지털 콘텐츠 제작" }
             ].map((service, i) => (
               <div key={i} className="p-8 bg-zinc-50 border border-zinc-100 rounded-3xl hover:border-brand-primary/30 transition-all hover:shadow-xl hover:shadow-brand-primary/5 group flex flex-col items-center text-center">
                 <service.icon className="w-8 h-8 text-brand-primary mb-4 group-hover:scale-110 transition-transform" />
