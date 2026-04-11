@@ -219,7 +219,7 @@ export default function Portfolio({ limit }: { limit?: number }) {
                   <div className="space-y-6 mb-8">
                     <div>
                       <h4 className="text-xs font-bold text-zinc-400 uppercase tracking-widest mb-2">Project Overview</h4>
-                      <p className="text-zinc-600 font-medium">{project.description}</p>
+                      <p className="text-zinc-600 font-medium whitespace-pre-wrap">{project.description}</p>
                     </div>
                     <div>
                       <h4 className="text-xs font-bold text-zinc-400 uppercase tracking-widest mb-2">My Role</h4>
