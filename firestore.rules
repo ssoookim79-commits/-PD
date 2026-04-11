@@ -36,14 +36,16 @@ service cloud.firestore {
     }
 
     function isValidProject(data) {
-      return data.keys().hasAll(['category', 'type', 'title', 'videoUrl', 'description', 'role', 'points']) &&
+      return data.keys().hasAll(['category', 'type', 'title', 'description', 'role', 'points']) &&
              data.category in ['Music', 'Entertainment'] &&
              data.type is string && data.type.size() > 0 && data.type.size() < 100 &&
              data.title is string && data.title.size() > 0 && data.title.size() < 100 &&
-             data.videoUrl is string && data.videoUrl.matches("^https?://.*") &&
+             (!('thumbnailUrl' in data) || (data.thumbnailUrl is string && data.thumbnailUrl.matches("^https?://.*"))) &&
+             (!('videoUrl' in data) || (data.videoUrl is string && data.videoUrl.matches("^https?://.*"))) &&
              data.description is string && data.description.size() < 1000 &&
              data.role is string && data.role.size() < 200 &&
-             data.points is list && data.points.size() <= 10;
+             data.points is list && data.points.size() <= 10 &&
+             (!('videos' in data) || (data.videos is list && data.videos.size() <= 20));
     }
 
     // ===============================================================

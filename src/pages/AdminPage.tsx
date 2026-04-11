@@ -4,15 +4,22 @@ import { auth, db, googleProvider, handleFirestoreError, OperationType } from ".
 import { signInWithPopup, signOut, onAuthStateChanged, User } from "firebase/auth";
 import { collection, doc, setDoc, deleteDoc, onSnapshot, query, orderBy, addDoc, serverTimestamp } from "firebase/firestore";
 
+interface Video {
+  title: string;
+  url: string;
+}
+
 interface Project {
   id: string;
   category: "Music" | "Entertainment";
   type: string;
   title: string;
-  videoUrl: string;
+  thumbnailUrl?: string;
+  videoUrl?: string; // Legacy field
   description: string;
   role: string;
   points: string[];
+  videos: Video[];
   order: number;
 }
 
@@ -133,10 +140,11 @@ export default function AdminPage() {
       category: "Entertainment",
       type: "New Type",
       title: "새 프로젝트",
-      videoUrl: "https://",
+      thumbnailUrl: "https://",
       description: "설명을 입력하세요",
       role: "역할을 입력하세요",
       points: ["포인트 1"],
+      videos: [{ title: "영상 1", url: "https://" }],
       order: projects.length,
       createdAt: serverTimestamp()
     };
@@ -157,12 +165,81 @@ export default function AdminPage() {
     setProjects(prev => prev.map(p => p.id === id ? { ...p, [field]: value } : p));
   };
 
+  const getThumbnail = (project: Project) => {
+    let url = project.thumbnailUrl || project.videoUrl || "";
+    if (url.includes("youtube.com") || url.includes("youtu.be")) {
+      const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+      const match = url.match(regExp);
+      if (match && match[2].length === 11) {
+        return `https://img.youtube.com/vi/${match[2]}/maxresdefault.jpg`;
+      }
+    }
+    if (url.includes("drive.google.com")) {
+      const driveIdMatch = url.match(/\/d\/([^\/]+)/) || url.match(/id=([^&]+)/);
+      if (driveIdMatch) {
+        return `https://drive.google.com/uc?export=view&id=${driveIdMatch[1]}`;
+      }
+    }
+    return url;
+  };
+
   const updatePoint = (id: string, index: number, value: string) => {
     setProjects(prev => prev.map(p => {
       if (p.id === id) {
         const newPoints = [...p.points];
         newPoints[index] = value;
         return { ...p, points: newPoints };
+      }
+      return p;
+    }));
+  };
+
+  const addPoint = (id: string) => {
+    setProjects(prev => prev.map(p => {
+      if (p.id === id) {
+        return { ...p, points: [...p.points, ""] };
+      }
+      return p;
+    }));
+  };
+
+  const removePoint = (id: string, index: number) => {
+    setProjects(prev => prev.map(p => {
+      if (p.id === id) {
+        const newPoints = [...p.points];
+        newPoints.splice(index, 1);
+        return { ...p, points: newPoints };
+      }
+      return p;
+    }));
+  };
+
+  const updateVideo = (id: string, index: number, field: keyof Video, value: string) => {
+    setProjects(prev => prev.map(p => {
+      if (p.id === id) {
+        const newVideos = [...(p.videos || [])];
+        newVideos[index] = { ...newVideos[index], [field]: value };
+        return { ...p, videos: newVideos };
+      }
+      return p;
+    }));
+  };
+
+  const addVideo = (id: string) => {
+    setProjects(prev => prev.map(p => {
+      if (p.id === id) {
+        return { ...p, videos: [...(p.videos || []), { title: "", url: "" }] };
+      }
+      return p;
+    }));
+  };
+
+  const removeVideo = (id: string, index: number) => {
+    setProjects(prev => prev.map(p => {
+      if (p.id === id) {
+        const newVideos = [...(p.videos || [])];
+        newVideos.splice(index, 1);
+        return { ...p, videos: newVideos };
       }
       return p;
     }));
@@ -290,8 +367,13 @@ export default function AdminPage() {
 
               <div className="w-full lg:w-64 space-y-4">
                 <div className="aspect-video bg-zinc-200 rounded-2xl flex items-center justify-center overflow-hidden relative group">
-                  {project.videoUrl.startsWith('http') ? (
-                    <img src={project.videoUrl} alt="" className="w-full h-full object-cover" />
+                  {(getThumbnail(project)).startsWith('http') ? (
+                    <img 
+                      src={getThumbnail(project)} 
+                      alt="" 
+                      className="w-full h-full object-cover" 
+                      referrerPolicy="no-referrer"
+                    />
                   ) : (
                     <ImageIcon className="text-zinc-400 w-8 h-8" />
                   )}
@@ -330,13 +412,60 @@ export default function AdminPage() {
                     onChange={(e) => updateProjectField(project.id, "type", e.target.value)}
                   />
                 </div>
-                <input
-                  type="text"
-                  placeholder="이미지/영상 URL"
-                  className="w-full px-4 py-2 rounded-xl border border-zinc-200"
-                  value={project.videoUrl}
-                  onChange={(e) => updateProjectField(project.id, "videoUrl", e.target.value)}
-                />
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between">
+                    <label className="text-xs font-bold text-zinc-400 uppercase tracking-widest">대표 이미지 (Thumbnail) URL</label>
+                    <span className="text-[10px] text-zinc-400 font-medium">* 반드시 이미지 직접 링크(.jpg, .png 등)를 넣어주세요</span>
+                  </div>
+                  <input
+                    type="text"
+                    placeholder="이미지 URL (예: https://example.com/image.jpg)"
+                    className="w-full px-4 py-2 rounded-xl border border-zinc-200"
+                    value={project.thumbnailUrl || project.videoUrl || ""}
+                    onChange={(e) => updateProjectField(project.id, "thumbnailUrl", e.target.value)}
+                  />
+                </div>
+
+                <div className="space-y-4 p-6 bg-zinc-100/50 rounded-2xl border border-zinc-200">
+                  <div className="flex items-center justify-between">
+                    <p className="text-xs font-bold text-zinc-400 uppercase tracking-widest">Videos List</p>
+                    <button 
+                      onClick={() => addVideo(project.id)}
+                      className="text-xs font-bold text-brand-primary flex items-center gap-1 hover:underline"
+                    >
+                      <Plus className="w-3 h-3" /> 영상 추가
+                    </button>
+                  </div>
+                  {(project.videos || []).map((video, vIndex) => (
+                    <div key={vIndex} className="grid grid-cols-1 md:grid-cols-2 gap-3 relative group/video">
+                      <input
+                        type="text"
+                        placeholder="영상 제목"
+                        className="w-full px-4 py-2 rounded-xl border border-zinc-200 text-sm"
+                        value={video.title}
+                        onChange={(e) => updateVideo(project.id, vIndex, "title", e.target.value)}
+                      />
+                      <div className="flex gap-2">
+                        <input
+                          type="text"
+                          placeholder="영상 URL (YouTube 등)"
+                          className="flex-1 px-4 py-2 rounded-xl border border-zinc-200 text-sm"
+                          value={video.url}
+                          onChange={(e) => updateVideo(project.id, vIndex, "url", e.target.value)}
+                        />
+                        <button 
+                          onClick={() => removeVideo(project.id, vIndex)}
+                          className="p-2 text-red-400 hover:text-red-600 transition-colors"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                  {(project.videos || []).length === 0 && (
+                    <p className="text-center text-zinc-400 text-xs py-4">등록된 영상이 없습니다.</p>
+                  )}
+                </div>
                 <textarea
                   placeholder="설명"
                   className="w-full px-4 py-2 rounded-xl border border-zinc-200 h-24"
@@ -352,15 +481,30 @@ export default function AdminPage() {
                 />
                 
                 <div className="space-y-2">
-                  <p className="text-xs font-bold text-zinc-400 uppercase tracking-widest">Strategy Points</p>
+                  <div className="flex items-center justify-between">
+                    <p className="text-xs font-bold text-zinc-400 uppercase tracking-widest">Strategy Points</p>
+                    <button 
+                      onClick={() => addPoint(project.id)}
+                      className="text-xs font-bold text-brand-primary flex items-center gap-1 hover:underline"
+                    >
+                      <Plus className="w-3 h-3" /> 포인트 추가
+                    </button>
+                  </div>
                   {project.points.map((point, i) => (
-                    <input
-                      key={i}
-                      type="text"
-                      className="w-full px-4 py-2 rounded-xl border border-zinc-200"
-                      value={point}
-                      onChange={(e) => updatePoint(project.id, i, e.target.value)}
-                    />
+                    <div key={i} className="flex gap-2">
+                      <input
+                        type="text"
+                        className="flex-1 px-4 py-2 rounded-xl border border-zinc-200"
+                        value={point}
+                        onChange={(e) => updatePoint(project.id, i, e.target.value)}
+                      />
+                      <button 
+                        onClick={() => removePoint(project.id, i)}
+                        className="p-2 text-red-400 hover:text-red-600 transition-colors"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
                   ))}
                 </div>
 

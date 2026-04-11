@@ -8,13 +8,23 @@
         "category": { "type": "string", "enum": ["Music", "Entertainment"] },
         "type": { "type": "string" },
         "title": { "type": "string" },
-        "videoUrl": { "type": "string", "format": "url" },
+        "thumbnailUrl": { "type": "string", "format": "url" },
+        "videos": { 
+          "type": "array", 
+          "items": { 
+            "type": "object",
+            "properties": {
+              "title": { "type": "string" },
+              "url": { "type": "string", "format": "url" }
+            }
+          }
+        },
         "description": { "type": "string" },
         "role": { "type": "string" },
         "points": { "type": "array", "items": { "type": "string" } },
         "order": { "type": "number" }
       },
-      "required": ["category", "type", "title", "videoUrl", "description", "role", "points"]
+      "required": ["category", "type", "title", "thumbnailUrl", "description", "role", "points", "videos"]
     }
   },
   "firestore": {
