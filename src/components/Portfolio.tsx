@@ -122,7 +122,9 @@ export default function Portfolio({ limit }: { limit?: number }) {
   }, []);
 
   const filteredProjects = projects.filter(p => p.category === activeTab);
-  const displayedProjects = limit ? filteredProjects.slice(0, limit) : filteredProjects;
+  const displayedProjects = limit 
+    ? projects.filter(p => p.isFeatured).slice(0, limit) 
+    : filteredProjects;
 
   const getEmbedUrl = (url: string) => {
     if (!url) return null;
@@ -166,20 +168,22 @@ export default function Portfolio({ limit }: { limit?: number }) {
             <p className="text-zinc-500 font-medium">실력과 범용성을 증명하는 결과물입니다.</p>
           </div>
           
-          <div className="flex p-1 bg-white rounded-2xl border border-zinc-100 shadow-sm">
-            <button 
-              onClick={() => setActiveTab("Entertainment")}
-              className={`flex items-center gap-2 px-6 py-3 rounded-xl font-bold transition-all ${activeTab === "Entertainment" ? "bg-brand-primary text-white shadow-lg shadow-brand-primary/20" : "text-zinc-400 hover:text-brand-primary"}`}
-            >
-              <Film className="w-4 h-4" /> Entertainment
-            </button>
-            <button 
-              onClick={() => setActiveTab("Music")}
-              className={`flex items-center gap-2 px-6 py-3 rounded-xl font-bold transition-all ${activeTab === "Music" ? "bg-brand-primary text-white shadow-lg shadow-brand-primary/20" : "text-zinc-400 hover:text-brand-primary"}`}
-            >
-              <Music className="w-4 h-4" /> Music
-            </button>
-          </div>
+          {!limit && (
+            <div className="flex p-1 bg-white rounded-2xl border border-zinc-100 shadow-sm">
+              <button 
+                onClick={() => setActiveTab("Entertainment")}
+                className={`flex items-center gap-2 px-6 py-3 rounded-xl font-bold transition-all ${activeTab === "Entertainment" ? "bg-brand-primary text-white shadow-lg shadow-brand-primary/20" : "text-zinc-400 hover:text-brand-primary"}`}
+              >
+                <Film className="w-4 h-4" /> Entertainment
+              </button>
+              <button 
+                onClick={() => setActiveTab("Music")}
+                className={`flex items-center gap-2 px-6 py-3 rounded-xl font-bold transition-all ${activeTab === "Music" ? "bg-brand-primary text-white shadow-lg shadow-brand-primary/20" : "text-zinc-400 hover:text-brand-primary"}`}
+              >
+                <Music className="w-4 h-4" /> Music
+              </button>
+            </div>
+          )}
         </div>
 
         <div className="grid grid-cols-1 gap-20">
@@ -229,7 +233,7 @@ export default function Portfolio({ limit }: { limit?: number }) {
 
                   <div className="space-y-6">
                     <h4 className="text-sm font-bold text-brand-dark uppercase tracking-widest border-l-4 border-brand-accent pl-4">
-                      Strategy Analysis
+                      Key Achievements
                     </h4>
                     <ul className="space-y-4">
                       {project.points.map((point, i) => (

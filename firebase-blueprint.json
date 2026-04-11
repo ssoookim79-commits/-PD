@@ -22,7 +22,8 @@
         "description": { "type": "string" },
         "role": { "type": "string" },
         "points": { "type": "array", "items": { "type": "string" } },
-        "order": { "type": "number" }
+        "order": { "type": "number" },
+        "isFeatured": { "type": "boolean", "description": "Whether to show this project on the home page" }
       },
       "required": ["category", "type", "title", "thumbnailUrl", "description", "role", "points", "videos"]
     }

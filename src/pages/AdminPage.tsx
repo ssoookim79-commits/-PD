@@ -21,6 +21,7 @@ interface Project {
   points: string[];
   videos: Video[];
   order: number;
+  isFeatured?: boolean;
 }
 
 export default function AdminPage() {
@@ -118,6 +119,25 @@ export default function AdminPage() {
     }
   };
 
+  const handleSaveAll = async () => {
+    setLoading(true);
+    try {
+      await Promise.all(projects.map(project => {
+        const { id, ...data } = project;
+        return setDoc(doc(db, "projects", id), {
+          ...data,
+          updatedAt: serverTimestamp()
+        });
+      }));
+      showMsg("모든 변경사항이 저장되었습니다.");
+    } catch (err: any) {
+      console.error("Save All error:", err);
+      showMsg("저장 중 오류가 발생했습니다.", "error");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleDelete = async (id: string) => {
     setLoading(true);
     try {
@@ -146,6 +166,7 @@ export default function AdminPage() {
       points: ["포인트 1"],
       videos: [{ title: "영상 1", url: "https://" }],
       order: projects.length,
+      isFeatured: false,
       createdAt: serverTimestamp()
     };
     try {
@@ -329,6 +350,9 @@ export default function AdminPage() {
             <button onClick={handleLogout} className="flex items-center gap-2 px-4 py-2 text-zinc-500 hover:text-brand-dark transition-colors">
               <LogOut className="w-4 h-4" /> 로그아웃
             </button>
+            <button onClick={handleSaveAll} disabled={loading || projects.length === 0} className="btn-primary bg-emerald-500 hover:bg-emerald-600 flex items-center gap-2">
+              {loading ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />} 전체 저장
+            </button>
             <button onClick={handleAdd} className="btn-primary flex items-center gap-2">
               <Plus className="w-4 h-4" /> 새 프로젝트 추가
             </button>
@@ -396,6 +420,18 @@ export default function AdminPage() {
               </div>
 
               <div className="flex-1 space-y-4">
+                <div className="flex items-center gap-3 p-3 bg-brand-light/10 rounded-xl border border-brand-light/30">
+                  <input
+                    type="checkbox"
+                    id={`featured-${project.id}`}
+                    className="w-5 h-5 rounded border-zinc-300 text-brand-primary focus:ring-brand-primary"
+                    checked={project.isFeatured || false}
+                    onChange={(e) => updateProjectField(project.id, "isFeatured", e.target.checked)}
+                  />
+                  <label htmlFor={`featured-${project.id}`} className="text-sm font-bold text-brand-dark cursor-pointer">
+                    메인 화면에 노출 (최대 2개 권장)
+                  </label>
+                </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <input
                     type="text"
@@ -482,12 +518,12 @@ export default function AdminPage() {
                 
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
-                    <p className="text-xs font-bold text-zinc-400 uppercase tracking-widest">Strategy Points</p>
+                    <p className="text-xs font-bold text-zinc-400 uppercase tracking-widest">Key Achievements</p>
                     <button 
                       onClick={() => addPoint(project.id)}
                       className="text-xs font-bold text-brand-primary flex items-center gap-1 hover:underline"
                     >
-                      <Plus className="w-3 h-3" /> 포인트 추가
+                      <Plus className="w-3 h-3" /> 성과 추가
                     </button>
                   </div>
                   {project.points.map((point, i) => (
