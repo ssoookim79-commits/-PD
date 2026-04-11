@@ -528,10 +528,19 @@ export default function AdminPage() {
             </div>
           ))}
           
-          {projects.length === 0 && (
+          {projects.length === 0 ? (
             <div className="text-center py-20 glass rounded-3xl">
               <p className="text-zinc-400 mb-4">등록된 프로젝트가 없습니다.</p>
               <button onClick={handleAdd} className="btn-primary">첫 프로젝트 추가하기</button>
+            </div>
+          ) : (
+            <div className="mt-8 flex justify-center">
+              <button 
+                onClick={handleAdd} 
+                className="btn-primary flex items-center gap-2 px-12 py-4 shadow-xl hover:scale-105 transition-all"
+              >
+                <Plus className="w-5 h-5" /> 새 프로젝트 추가하기
+              </button>
             </div>
           )}
         </div>
